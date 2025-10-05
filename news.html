@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="kk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Жаңалықтар - Дорамалар әлемі</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo h1 {
+            color: #e50914;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #e50914;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #e50914, #b2070f);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 40px;
+        }
+
+        /* News Card */
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid #e50914;
+        }
+
+        .news-content {
+            padding: 25px;
+        }
+
+        .news-category {
+            display: inline-block;
+            background: #e50914;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #222;
+            line-height: 1.3;
+        }
+
+        .news-excerpt {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 0.85rem;
+            border-top: 1px solid #e9ecef;
+            padding-top: 15px;
+        }
+
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .read-more {
+            color: #e50914;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #b2070f;
+        }
+
+        /* News Detail Page */
+        .news-detail {
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid #dee2e6;
+        }
+
+        .back-button:hover {
+            background: #e50914;
+            color: white;
+            border-color: #e50914;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .detail-category {
+            display: inline-block;
+            background: #e50914;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .detail-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #222;
+            line-height: 1.3;
+        }
+
+        .detail-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-content {
+            line-height: 1.8;
+            color: #444;
+            font-size: 1.05rem;
+        }
+
+        .detail-content p {
+            margin-bottom: 20px;
+        }
+
+        .detail-content h3 {
+            color: #e50914;
+            margin: 30px 0 15px 0;
+            font-size: 1.4rem;
+        }
+
+        .detail-content ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .detail-content li {
+            margin-bottom: 8px;
+        }
+
+        .news-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .news-tag {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid #dee2e6;
+        }
+
+        /* Footer */
+        .footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 40px 25px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #e50914;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 20px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .page-header {
+                padding: 40px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .news-detail {
+                padding: 20px;
+            }
+
+            .detail-title {
+                font-size: 1.8rem;
+            }
+
+            .detail-image {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar">
+                <div class="logo">
+                    <h1>🎬 Дорамалар әлемі</h1>
+                    <p>Азиялық дорамалардың соңғы жаңалықтары</p>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="https://enukz.sharepoint.com/sites/dorama.alemi/SitePages/HomeForBrandCentral.aspx">Басты бет</a></li>
+                    <li><a href="index.html">Дорама каталогы</a></li>
+                    <li><a href="actor.html">Актерлар мен актрисалар</a></li>
+                    <li><a href="news.html" class="active">Жаңалықтар</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📰 Дорамалар әлемінен жаңалықтар</h1>
+            <p>Корей, жапон, қытай және басқа да азиялық дорамалардың соңғы жаңалықтары, жанқыбырлар мен арнайы репортаждар</p>
+        </div>
+
+        <!-- News Grid -->
+        <div class="news-grid" id="newsContainer">
+            <!-- Жаңалықтар динамикалық түрде толтырылады -->
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2025 Азиялық дорамалар порталы. Барлық құқықтар қорғалған.</p>
+            <p>📧 Байланыс: info@asiandrama.kz | 📞 +7 (778) 980 64 11</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Құпиялылық саясаты</a>
+                <a href="#" class="footer-link">Пайдалану шарттары</a>
+                <a href="#" class="footer-link">Біз туралы</a>
+                <a href="#" class="footer-link">Кері байланыс</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Жаңалықтар деректері
+        const news = [
+                {
+                    id: 1,
+                    title: "«My Troublesome Star» дорамасы жоғары рейтинг жинады",
+                    category: "Бет-а-бет",
+                    date: "2025 ж. 20 қыркүйек",
+                    image: "https://0.soompi.io/wp-content/uploads/2025/09/27201935/My-troublesome-star-who-is-she-thirty-but-seventeen.jpg",
+                    excerpt: "Корей дорамасы «My Troublesome Star» премьерасында жоғары көрсеткішке ие болды.",
+                    content: `
+      <p>«My Troublesome Star» дорамасы Uhm Jung‑hwa мен Song Seung‑heon және Lee El қатысуымен ENA телеарнасында эфирге шықты. :contentReference[oaicite:0]{index=0}</p>
+      <h3>Сюжет</h3>
+      <p>Бір кезде атағы бар актриса апаттан кейін 25 жыл ойша жоғалады, ал оянғанда оның өмірі мүлде басқа бағытта жүреді. :contentReference[oaicite:1]{index=1}</p>
+      <h3>Қабылдауы</h3>
+      <p>Көрермендер мен сыншылар дораманың концепциясын, актерлардың эмоционалды ойынын жоғары бағалады.</p>
+    `,
+                    tags: ["Корея", "Романтика", "Рейтинг", "2025"]
+                },
+                {
+                    id: 2,
+                    title: "Қытай дорама «The First Frost» рекорд жасады",
+                    category: "Рекордтар",
+                    date: "2025 ж. 27 ақпан",
+                    image: "https://i.ytimg.com/vi/oIYajs3NBG4/maxresdefault.jpg",
+                    excerpt: "«The First Frost» дорамасы шығуымен Netflix‑те әлемдік рейтингке енді.",
+                    content: `
+      <p>Қытайлық романтикалық дорама «The First Frost» Netflix платформасында Global Top TV Shows тізімінде жоғары орын алды. :contentReference[oaicite:2]{index=2}</p>
+      <h3>Рекорд белгілері</h3>
+      <p>Dораманың алғашқы күндері Hotness Index көрсеткіштерін тез жинап, көп талқыланды. :contentReference[oaicite:3]{index=3}</p>
+      <h3>Рөлдерді сомдағандар</h3>
+      <p>Бас рөлдерде Bai Jingting және Zhang Ruonan ойнайды. :contentReference[oaicite:4]{index=4}</p>
+    `,
+                    tags: ["Қытай", "Романтика", "Рекорд", "2025"]
+                },
+                {
+                    id: 3,
+                    title: "Тай дорама «Mad Unicorn» Netflix‑те премьерлады",
+                    category: "Премьера",
+                    date: "2025 ж. 29 мамыр",
+                    image: "https://i.ytimg.com/vi/W4Xy8NkAFpI/maxresdefault.jpg",
+                    excerpt: "Тайланды дорама «Mad Unicorn» дүниежүзілік Netflix‑те эфирге шықты.",
+                    content: `
+      <p>Тай дорамасы «Mad Unicorn» 2025 ж. 29 мамырда Netflix платформасында көрсетіле бастады. :contentReference[oaicite:5]{index=5}</p>
+      <h3>Жалпы мәлімет</h3>
+      <p>Дорама бизнес, өткінші махаббат және әлеуметтік шиеленістерге арналған сюжеті бар. :contentReference[oaicite:6]{index=6}</p>
+      <h3>Қатысушылар</h3>
+      <p>Негізгі күйлерді Natara Nopparatayapon, Methika Jiranorraphat және басқа актерлар сомдайды. :contentReference[oaicite:7]{index=7}</p>
+    `,
+                    tags: ["Тайланд", "Премьера", "Netflix", "2025"]
+                },
+                {
+                    id: 4,
+                    title: "Корей драмалары «Seoul International Drama Awards 2025» байқауын жаулап алды",
+                    category: "Жүлдесі",
+                    date: "2025 ж. 2 қазан",
+                    image: "https://i.ytimg.com/vi/6VonQ_g4Kag/maxresdefault.jpg",
+                    excerpt: "Корей дорамалары жарыста басты жүлделерге ие болды.",
+                    content: `
+      <p>2025 ж. 2 қазанда өткен Seoul International Drama Awards байқауында корей дорамалары бірнеше негізгі номинацияларды жеңіп алды: Outstanding Korean Drama, Outstanding Actress және Outstanding Actor. :contentReference[oaicite:8]{index=8}</p>
+      <h3>Жеңімпаздар</h3>
+      <p>IU «When Life Gives You Tangerines» дорамасындағы рөлі үшін Outstanding Actress наградасын алды. :contentReference[oaicite:9]{index=9}</p>
+      <h3>Әлемдік әсері</h3>
+      <p>Бұл жеңістер K‑драма индустриясының әлемдік деңгейде танылуын нығайтты.</p>
+    `,
+                    tags: ["Корея", "Жүлде", "Халықаралық", "2025"]
+                },
+                {
+                    id: 5,
+                    title: "Zhao Lusi дорамасы даулы оқиғаға ұшырады",
+                    category: "Даулы",
+                    date: "2025 ж. 5 қазан",
+                    image: "https://www.yesasia.ru/wp-content/uploads/2025/04/0077Ahqlly1i0ghpehoftj31900u0wl7.jpg",
+                    excerpt: "Zhao Lusi қатысатын дорама актёрдың атымен байланысты дау тудырды.",
+                    content: `
+      <p>Zhao Lusi басты рөлді сомдайтын дорама «Love's Ambition» актерлердің бірінің Yu Meng Long оқиғасына байланысты дау тудыруы себепті сыналды. :contentReference[oaicite:10]{index=10}</p>
+      <h3>Салдары</h3>
+      <p>Бұл скандал дорама имиджіне кері әсер етіп, көрсеткіштер мен қоғамдық пікірлерге ықпал етті. :contentReference[oaicite:11]{index=11}</p>
+    `,
+                    tags: ["Қытай", "Скандал", "Zhao Lusi", "2025"]
+                },
+                {
+                    id: 6,
+                    title: "«Dear X» триллері премьераға дайындалуда",
+                    category: "Премьера",
+                    date: "2025 ж. 6 қараша (жоспарлы)",
+                    image: "https://i.ytimg.com/vi/rXv9jt8iuoo/maxresdefault.jpg",
+                    excerpt: "Корей триллері «Dear X» желтоқсан айында эфирге шығады деп жоспарланып отыр.",
+                    content: `
+      <p>Корей мело-триллері «Dear X» дорамасы Kim Yoo-jung мен Kim Young-dae басты рөлдерді сомдайды және 2025 ж. 6 қарашада TVING арнасында көрсетіледі. :contentReference[oaicite:12]{index=12}</p>
+      <h3>Сюжет</h3>
+      <p>Baek Ah-jin актриса мансабын құлдыратып, екі «зомби» арқылы шындыққа бет алады. :contentReference[oaicite:13]{index=13}</p>
+      <h3>Кастинг</h3>
+      <p>Kim Do-hoon, Lee Yul-eum секілді актерлар қосымша рөлдерді алады. :contentReference[oaicite:14]{index=14}</p>
+    `,
+                    tags: ["Корея", "Триллер", "Жаңа", "2025"]
+                },
+                {
+                    id: 7,
+                    title: "Қытай романс дорамасы «Love for Love’s Sake» танымал болуда",
+                    category: "Хит",
+                    date: "2025 ж. 12 шілде",
+                    image: "https://yandex-images.clstorage.net/5JJRV3130/68f570Zw3/kNOqgmWUtVSv_1jp9wa3gXzVtQeAWgtlnanL2MTpFwbOjbG0D_a6AECcZD8KDyzzo1pp_1duEMhkxwXy9k2UWsHW97MkncxIr-sJxd4237E8gIVyjA8DAY20r-mMEKLLK2VJAZdGLqm9rSFiRgoIk4MnzQ5Hr70FkG8RTp40iZdA0_Ky9Xws2DfTXbFHSh9RqHy1gwyT72A5KXYwBNwGkztplf2_OgZVueEhChKG2WdzE53rH799YXDL3WJSOIGPjIPOOjHoMMzHZwGBK6Y7qdgMZRskVwekiYGSNJQs8o8PCd1lD64-xW2d8fqeJo07s_t5q3M_UZWwt1kqptgd08Sr5uptjGDwf_d93dPml72MaFnviLv3ULndwiSY3Fp_--EhJdPqip2pQc1yUpKJk6MXJbPz6yGNlFMdzrJEST_EKyqONVRIaIcrUV2znjsxwGQRb8Azo6hl6UYgTMw-d2Mt1V1Ttr45rQGZGsqy9ff_Hw2ji0vNcfBvDSaGdHmzLNuSTlHwnFSHU41lD84vAVQ4uZMsT3OksdFOTCBAkiuToY3hz8I-HVUBBX4K3nkfP9-de2vHpSX066HeyrSxg7Qnvn6hcBBwo_elgQOu7_mMiE3XfEMTIM1leojQ5HYXa93tWddmisklcfUGgl5FNw8DGVPjN119nM85frbEnV_Mo26CbUy0ZFNbGY2XHku5wGDd41DTu9jVvZZMbNxmmzf1YeXn3oZpgen5kjIK7f8fxw2rX3ul9XTXtfrq1Lnv9IeSSi0cOGBfZw3Zh0InAST4xeOIu_tETaWy9Ci0Pkcrqalpl1JinVWdCT7qWi3LB99pF9vzPQms10Fa1kyJg4AXSubFyEggX3-NnQ8-1xlcdFGrcKsbCOXlGowQyDpbb3HRZbvCHs2hkRHmbi61y6uPtXfbE1GFKIc14upEqa9IX256QUgsVAvb2ZkfirM5YPTd96Tjc1DRkeYgnPiQ",
+                    excerpt: "Қытай романтикалық дорама «Love for Love’s Sake» платформаларда хитке айналды.",
+                    content: `
+      <p>«Love for Love’s Sake» дорамасы көне гейм қозғалысы мен махаббат үшбұрышын біріктіретін сюжетті ұсынады. :contentReference[oaicite:15]{index=15}</p>
+      <h3>Қатысушылар</h3>
+      <p>Бас рөлдерде Tae Vin, Cha Joo Wan және Oh Min Su ойнайды. :contentReference[oaicite:16]{index=16}</p>
+      <h3>Таралуы</h3>
+      <p>Дорама Netflix, iQIYI, TVING және Wavve платформаларында көрсетілді. :contentReference[oaicite:17]{index=17}</p>
+    `,
+                    tags: ["Қытай", "Романтика", "Хит", "2025"]
+                },
+                {
+                    id: 8,
+                    title: "Қазақ дорамалары 2025 жылы да жалғаспақ",
+                    category: "Қазақстан",
+                    date: "2025 ж. 1 қазан",
+                    image: "http://avatars.mds.yandex.net/get-vthumb/3413951/38368ab373f3b920089924d1672c6a41/800x450",
+                    excerpt: "Қазақстанда «4 градус» атты драма шығарылуда.",
+                    content: `
+      <p>2025 жылы Қазақстанда «4 градус» атты драма көрсетіледі, жұлдызды актерлар: Берик Айтжанов, Саягүл Оразғалиева, Диана Холловей және басқалар. :contentReference[oaicite:18]{index=18}</p>
+      <h3>Жанр</h3>
+      <p>Жоба драма және криминал жанрлары арасында орналасады. :contentReference[oaicite:19]{index=19}</p>
+    `,
+                    tags: ["Қазақстан", "Драма", "2025"]
+                },
+                {
+                    id: 10,
+                    title: "Daniel Padilla Азия жұлдыз сыйлығын алды",
+                    category: "Жұлдыз",
+                    date: "2025 ж. 3 қазан",
+                    image: "https://avatars.mds.yandex.net/i?id=a34c2a722edccb36a11bdbfb1ae51478_l-5092546-images-thumbs&n=13",
+                    excerpt: "Филиппин актеры Daniel Padilla Азия жұлдыз сыйлығын жеңіп алды.",
+                    content: `
+      <p>Seoul International Drama Awards 2025 сайысында Daniel Padilla Outstanding Asian Star номинациясымен марапатталды. :contentReference[oaicite:22]{index=22}</p>
+    `,
+                    tags: ["Филиппин", "Актёр", "Жұлдыз", "2025"]
+                },
+                {
+                    id: 11,
+                    title: "Корей драмалары күзде жаңа премьералармен келеді",
+                    category: "Премьералар",
+                    date: "2025 ж. 5 қыркүйек",
+                    image: "https://www.yesasia.ru/wp-content/uploads/2025/08/MyCollages-1-4.jpg",
+                    excerpt: "2025 күзінде қазақстандық көрермендерге жаңа корей дорамалары ұсынылады.",
+                    content: `
+      <p>«Күзгі 2025» маусымында корей дорамаларының арасында криминал, саяси мелодрамалар мен эмоционалды оқиғалар орын алады. :contentReference[oaicite:23]{index=23}</p>
+      <h3>Күтімде тұрғандар</h3>
+      <p>Мысалы, «Менің жастық шағым», «Мантиз патшайымы» сияқты сериалдар күзде эфирге шығады деп болжанады. :contentReference[oaicite:24]{index=24}</p>
+    `,
+                    tags: ["Корея", "Жаңа", "Премьера", "2025"]
+                }
+            ];
+
+
+        // DOM элементтері
+        const newsContainer = document.getElementById('newsContainer');
+        const urlParams = new URLSearchParams(window.location.search);
+        const newsId = urlParams.get('id');
+
+        // Жаңалықтарды көрсету функциясы
+        function displayNews() {
+            if (newsId) {
+                displayNewsDetail(newsId);
+            } else {
+                displayNewsList();
+            }
+        }
+
+        // Жаңалықтар тізімін көрсету
+        function displayNewsList() {
+            newsContainer.innerHTML = '';
+
+            news.forEach(item => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                newsCard.onclick = () => {
+                    window.location.href = `news.html?id=${item.id}`;
+                };
+
+                newsCard.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" class="news-image" 
+                         onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=400&h=250&fit=crop'">
+                    <div class="news-content">
+                        <span class="news-category">${item.category}</span>
+                        <h3 class="news-title">${item.title}</h3>
+                        <p class="news-excerpt">${item.excerpt}</p>
+                        <div class="news-meta">
+                            <span class="news-date">📅 ${item.date}</span>
+                            <a href="news.html?id=${item.id}" class="read-more">Толығырақ оқу →</a>
+                        </div>
+                    </div>
+                `;
+                newsContainer.appendChild(newsCard);
+            });
+        }
+
+        // Жаңалықтың толық нұсқасын көрсету
+        function displayNewsDetail(id) {
+            const newsItem = news.find(item => item.id == id);
+            
+            if (!newsItem) {
+                newsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: #666;">
+                        <h2 style="margin-bottom: 20px;">😔 Жаңалық табылмады</h2>
+                        <a href="news.html" class="back-button">← Жаңалықтар тізіміне оралу</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const tagsHtml = newsItem.tags.map(tag => 
+                `<span class="news-tag">#${tag}</span>`
+            ).join('');
+
+            newsContainer.innerHTML = `
+                <div class="news-detail">
+                    <a href="news.html" class="back-button">← Барлық жаңалықтар</a>
+                    
+                    <img src="${newsItem.image}" alt="${newsItem.title}" class="detail-image" 
+                         onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&h=400&fit=crop'">
+                    
+                    <span class="detail-category">${newsItem.category}</span>
+                    <h1 class="detail-title">${newsItem.title}</h1>
+                    
+                    <div class="detail-meta">
+                        <span>📅 ${newsItem.date}</span>
+                        <span>👁️ ${Math.floor(Math.random() * 10000) + 5000} көрініс</span>
+                    </div>
+                    
+                    <div class="detail-content">
+                        ${newsItem.content}
+                    </div>
+                    
+                    <div class="news-tags">
+                        ${tagsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Бастапқы жүктеу
+        displayNews();
+    </script>
+</body>
+</html>

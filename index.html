@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="kk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дорамалар әлемі</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.catalog-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo h1 {
+    color: #e50914;
+    font-size: 1.8rem;
+}
+
+.logo p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #e50914;
+}
+
+/* Filters */
+.filters {
+    background: #f8f9fa;
+    padding: 25px;
+    border-bottom: 1px solid #e9ecef;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #495057;
+}
+
+.filter-select,
+.search-box {
+    padding: 10px 12px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus,
+.search-box:focus {
+    border-color: #e50914;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
+}
+
+/* Stats */
+.stats {
+    background: white;
+    padding: 25px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.stats h3 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.stat-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border-left: 4px solid #e50914;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e50914;
+    display: block;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #e50914;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Catalog Grid */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 30px;
+    min-height: 400px;
+}
+
+/* Drama Card */
+.drama-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    cursor: pointer;
+}
+
+.drama-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.drama-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-bottom: 3px solid #e50914;
+}
+
+.drama-content {
+    padding: 20px;
+}
+
+.drama-country {
+    display: inline-block;
+    background: #e50914;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.drama-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #222;
+    line-height: 1.3;
+    height: 2.6em;
+    overflow: hidden;
+}
+
+.drama-info {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.drama-description {
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.drama-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #ff9500;
+    font-weight: bold;
+}
+
+.star {
+    color: #ff9500;
+    font-size: 1.1rem;
+}
+
+/* Load More Button */
+.load-more-container {
+    text-align: center;
+    padding: 30px;
+}
+
+.load-more-btn {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+    background: #b8070f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+}
+
+.load-more-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Footer */
+.footer {
+    background: #343a40;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 20px;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 2% auto;
+    padding: 0;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideIn 0.3s ease;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    background: rgba(255, 255, 255, 0.9);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    color: #e50914;
+    background: white;
+}
+
+.modal-header {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.modal-header-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-header-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 60px 30px 30px 30px;
+    color: white;
+}
+
+.modal-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.modal-original-title {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 15px;
+}
+
+.modal-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.modal-badge {
+    background: #e50914;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-section {
+    margin-bottom: 25px;
+}
+
+.modal-section h3 {
+    color: #e50914;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+.drama-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    color: #333;
+    font-size: 1rem;
+}
+
+.genre-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.genre-tag {
+    background: #f8f9fa;
+    color: #495057;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    border: 1px solid #dee2e6;
+}
+
+.trailer-btn {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.trailer-btn:hover {
+    background: #b8070f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+}
+
+.trailer-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.character-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.character-item {
+    text-align: center;
+}
+
+.character-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.character-name {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.character-actor {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .catalog-grid {
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .logo h1 {
+        font-size: 1.4rem;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .nav-links {
+        gap: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+
+    .modal-header {
+        height: 200px;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .drama-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .character-list {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    /* Скрыть панель Google Translate */
+    .goog-te-banner-frame.skiptranslate {
+        display: none !important;
+    }
+
+    body {
+        top: 0px !important;
+    }
+
+    .goog-te-gadget {
+        display: none !important;
+    }
+
+    #google_translate_element {
+        display: none !important;
+    }
+
+    .skiptranslate {
+        display: none !important;
+    }
+
+    /* Скрыть всплывающую рамку */
+    .goog-tooltip {
+        display: none !important;
+    }
+
+    .goog-tooltip:hover {
+        display: none !important;
+    }
+
+    .goog-text-highlight {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+}
+    </style>
+</head>
+
+<body>
+    
+    <!DOCTYPE html>
+    <html lang="kk">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Дорамалар әлемі</title>
+        <link rel="stylesheet" href="styles.css">
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'ko',
+                    includedLanguages: 'kk',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                    autoDisplay: false
+                }, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript"
+            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    </head>
+    
+    <body>
+        <div id="google_translate_element" style="display: none;"></div>
+        <div class="catalog-container">
+            <!-- Header -->
+            <header class="header">
+                <div class="container">
+                    <nav class="navbar">
+                        <div class="logo">
+                            <h1>🎬 Дорамалар әлемі</h1>
+                            <p>Корей, жапон, қытай және басқа да азиялық дорамалардың каталогы</p>
+                        </div>
+                        <ul class="nav-links">
+                            <li><a href="https://enukz.sharepoint.com/sites/dorama.alemi/SitePages/HomeForBrandCentral.aspx">Басты бет</a></li>
+                            <li><a href="index.html" class="active">Дорама каталогы</a></li>
+                            <li><a href="actor.html">Актерлар мен актрисалар</a></li>
+                            <li><a href="news.html">Жаңалықтар</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+    
+            <!-- Statistics -->
+            <div class="stats">
+                <h3>📊 Каталог статистикасы</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalDramas">0</span>
+                        <span class="stat-label">Барлық дорамалар</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="koreanDramas">0</span>
+                        <span class="stat-label">Корей дорамалары</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="popularDramas">0</span>
+                        <span class="stat-label">Танымал дорамалар</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="avgRating">0</span>
+                        <span class="stat-label">Орташа рейтинг</span>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="genreFilter">🎭 Жанр бойынша:</label>
+                    <select id="genreFilter" class="filter-select">
+                        <option value="all">Барлығы</option>
+                        <option value="drama">Драма</option>
+                        <option value="action">Экшн</option>
+                        <option value="comedy">Комедия</option>
+                        <option value="romance">Романтика</option>
+                        <option value="thriller">Триллер</option>
+                        <option value="fantasy">Фэнтези</option>
+                        <option value="crime">Қылмыс</option>
+                    </select>
+                </div>
+    
+                <div class="filter-group">
+                    <label for="countryFilter">🌏 Ел бойынша:</label>
+                    <select id="countryFilter" class="filter-select">
+                        <option value="KR">Корея</option>
+                        <option value="JP">Жапония</option>
+                        <option value="CN">Қытай</option>
+                        <option value="TH">Тайланд</option>
+                        <option value="TW">Тайвань</option>
+                        <option value="HK">Гонконг</option>
+                    </select>
+                </div>
+    
+                <div class="filter-group">
+                    <label for="searchBox">🔍 Іздеу:</label>
+                    <input type="text" id="searchBox" class="search-box" placeholder="Дорама атын енгізіңіз..." />
+                </div>
+            </div>
+    
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <div class="spinner"></div>
+                <p>Жүктелуде...</p>
+            </div>
+    
+            <!-- Catalog -->
+            <div class="catalog-grid" id="catalogContainer">
+                <!-- Дорамалар динамикалық түрде толтырылады -->
+            </div>
+    
+            <!-- Load More Button -->
+            <div class="load-more-container">
+                <button id="loadMoreBtn" class="load-more-btn" style="display: none;">Тағы жүктеу</button>
+            </div>
+    
+            <!-- Footer -->
+            <div class="footer">
+                <p>© 2025 Азиялық дорамалар порталы. Барлық құқықтар қорғалған.</p>
+                <p>📧 Байланыс: info@asiandrama.kz | 📞 +7 (778) 980 64 11</p>
+            </div>
+        </div>
+    
+        <!-- Modal -->
+        <div id="dramaModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-header">
+                    <img id="modalImage" src="" alt="" class="modal-header-image">
+                    <div class="modal-header-overlay">
+                        <h2 class="modal-title" id="modalTitle"></h2>
+                        <p class="modal-original-title" id="modalOriginalTitle"></p>
+                        <div class="modal-badges">
+                            <span class="modal-badge" id="modalYear"></span>
+                            <span class="modal-badge" id="modalRating">⭐ <span id="modalRatingValue"></span>/10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <div class="drama-info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Жыл:</span>
+                                <span class="info-value" id="modalYearFull"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Маусымдар:</span>
+                                <span class="info-value" id="modalSeasons"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Бөлімдер:</span>
+                                <span class="info-value" id="modalEpisodes"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Рейтинг:</span>
+                                <span class="info-value" id="modalRatingFull"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="info-label">Жанрлар:</span>
+                            <div class="genre-tags" id="modalGenres"></div>
+                        </div>
+                    </div>
+    
+                    <div class="modal-section">
+                        <h3>Сипаттама</h3>
+                        <p id="modalDescription"></p>
+                    </div>
+    
+                    <div class="modal-section">
+                        <button id="trailerBtn" class="trailer-btn">
+                            🎥 Трейлерді көру
+                        </button>
+                    </div>
+    
+                    <div class="modal-section">
+                        <h3>Актерлер</h3>
+                        <div class="character-list" id="modalCharacters"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <script src="script.js"></script>
+    </body>
+    
+    </html>
+
+    <script>
+        // TMDB API конфигурациясы
+        const TMDB_API_KEY = '919b96e88a17c2289ff55411d8b4c6d3';
+        const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+        const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+        const YOUTUBE_BASE_URL = 'https://www.youtube.com/watch';
+
+        // Орысша-қазақша аудару сөздігі
+        const translations = {
+            'Drama': 'Драма',
+            'Action': 'Экшн',
+            'Comedy': 'Комедия',
+            'Romance': 'Романтика',
+            'Thriller': 'Триллер',
+            'Fantasy': 'Фэнтези',
+            'Crime': 'Қылмыс',
+            'Mystery': 'Мистика',
+            'Sci-Fi': 'Ғылыми-фантастика',
+            'Horror': 'Қорқынышты',
+            'Adventure': 'Приключение',
+            'Family': 'Отбасылық',
+            'War': 'Соғыс',
+            'Documentary': 'Деректі фильм'
+        };
+
+        // Названия стран
+        const countryNames = {
+            'KR': 'Корея',
+            'JP': 'Жапония',
+            'CN': 'Қытай',
+            'TH': 'Тайланд',
+            'TW': 'Тайвань',
+            'HK': 'Гонконг'
+        };
+
+        // Глобальные переменные
+        let currentPage = 1;
+        let currentDramas = [];
+        let selectedGenre = 'all';
+        let selectedCountry = 'KR';
+        let searchQuery = '';
+        let isLoading = false;
+        let currentTrailerKey = null;
+
+        // DOM элементтері
+        const catalogContainer = document.getElementById('catalogContainer');
+        const genreFilter = document.getElementById('genreFilter');
+        const countryFilter = document.getElementById('countryFilter');
+        const searchBox = document.getElementById('searchBox');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        // Модал элементтері
+        const dramaModal = document.getElementById('dramaModal');
+        const closeModal = document.querySelector('.modal .close');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalOriginalTitle = document.getElementById('modalOriginalTitle');
+        const modalYear = document.getElementById('modalYear');
+        const modalRatingValue = document.getElementById('modalRatingValue');
+        const modalYearFull = document.getElementById('modalYearFull');
+        const modalSeasons = document.getElementById('modalSeasons');
+        const modalEpisodes = document.getElementById('modalEpisodes');
+        const modalRatingFull = document.getElementById('modalRatingFull');
+        const modalGenres = document.getElementById('modalGenres');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalCharacters = document.getElementById('modalCharacters');
+        const trailerBtn = document.getElementById('trailerBtn');
+
+        // API-дан дорамалар алу
+        async function fetchDramas(page = 1, genre = 'all', country = 'KR', query = '') {
+            if (isLoading) return;
+
+            isLoading = true;
+            showLoading();
+
+            try {
+                let url;
+
+                if (query) {
+                    // Іздеу сұрауы
+                    url = `${TMDB_BASE_URL}/search/tv?api_key=${TMDB_API_KEY}&language=ko-KR&query=${encodeURIComponent(query)}&page=${page}`;
+                } else {
+                    // Фильтр по стране
+                    url = `${TMDB_BASE_URL}/discover/tv?api_key=${TMDB_API_KEY}&language=ko-KR&sort_by=popularity.desc&page=${page}&with_origin_country=${country}`;
+
+                    if (genre !== 'all') {
+                        const genreId = getGenreId(genre);
+                        if (genreId) {
+                            url += `&with_genres=${genreId}`;
+                        }
+                    }
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.results) {
+                    if (page === 1) {
+                        currentDramas = data.results;
+                    } else {
+                        currentDramas = [...currentDramas, ...data.results];
+                    }
+
+                    displayDramas(currentDramas);
+
+                    if (data.page < data.total_pages) {
+                        loadMoreBtn.style.display = 'block';
+                    } else {
+                        loadMoreBtn.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('Қате:', error);
+                showError('Деректерді жүктеуде қате орын алды');
+            } finally {
+                isLoading = false;
+                hideLoading();
+            }
+        }
+
+        // Жанр ID-ін алу
+        function getGenreId(genreName) {
+            const genreMap = {
+                'drama': 18,
+                'action': 10759,
+                'comedy': 35,
+                'romance': 10749,
+                'thriller': 9648,
+                'fantasy': 10765,
+                'crime': 80
+            };
+            return genreMap[genreName];
+        }
+
+        // Дорамаларды көрсету
+        function displayDramas(dramas) {
+            if (currentPage === 1) {
+                catalogContainer.innerHTML = '';
+            }
+
+            if (dramas.length === 0 && currentPage === 1) {
+                catalogContainer.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #666;">
+                    <h3 style="margin-bottom: 10px;">😔 Дорамалар табылған жоқ</h3>
+                    <p>Сіздің іздеу шарттарыңыз бойынша ешнәрсе табылмады</p>
+                </div>
+            `;
+                updateStatistics([]);
+                return;
+            }
+
+            dramas.forEach(drama => {
+                const dramaCard = document.createElement('div');
+                dramaCard.className = 'drama-card';
+
+                const posterPath = drama.poster_path
+                    ? `${TMDB_IMAGE_BASE_URL}${drama.poster_path}`
+                    : 'https://via.placeholder.com/280x400?text=No+Image';
+
+                const title = translateText(drama.name || drama.original_name);
+                const year = drama.first_air_date ? drama.first_air_date.split('-')[0] : 'Белгісіз';
+                const rating = drama.vote_average ? drama.vote_average.toFixed(1) : 'Н/Б';
+                const overview = translateText(drama.overview || 'Сипаттама жоқ');
+
+                dramaCard.innerHTML = `
+                <img src="${posterPath}" alt="${title}" class="drama-image" 
+                     onerror="this.src='https://via.placeholder.com/280x400?text=No+Image'">
+                <div class="drama-content">
+                    <span class="drama-country">${countryNames[selectedCountry] || 'Корея'}</span>
+                    <h3 class="drama-title">${title}</h3>
+                    <div class="drama-info">
+                        <span>📅 ${year}</span>
+                        <span>⭐ ${rating}</span>
+                    </div>
+                    <p class="drama-description">${overview}</p>
+                    <div class="drama-rating">
+                        <span class="star">⭐</span>
+                        <span>${rating}/10</span>
+                    </div>
+                </div>
+            `;
+
+                dramaCard.addEventListener('click', () => {
+                    openDramaModal(drama.id);
+                });
+
+                catalogContainer.appendChild(dramaCard);
+            });
+
+            updateStatistics(currentDramas);
+        }
+
+        // Дорама туралы толық ақпарат алу
+        async function fetchDramaDetails(dramaId) {
+            try {
+                const response = await fetch(
+                    `${TMDB_BASE_URL}/tv/${dramaId}?api_key=${TMDB_API_KEY}&language=ko-KR&append_to_response=credits,videos`
+                );
+                return await response.json();
+            } catch (error) {
+                console.error('Қате:', error);
+                return null;
+            }
+        }
+
+        // Модальді терезені ашу
+        async function openDramaModal(dramaId) {
+            const details = await fetchDramaDetails(dramaId);
+
+            if (!details) {
+                alert('Деректерді жүктеуде қате орын алды');
+                return;
+            }
+
+            const posterPath = details.backdrop_path || details.poster_path
+                ? `${TMDB_IMAGE_BASE_URL}${details.backdrop_path || details.poster_path}`
+                : 'https://via.placeholder.com/800x450?text=No+Image';
+
+            modalImage.src = posterPath;
+            modalTitle.textContent = translateText(details.name);
+            modalOriginalTitle.textContent = details.original_name;
+
+            const year = details.first_air_date ? details.first_air_date.split('-')[0] : 'Белгісіз';
+            modalYear.textContent = year;
+            modalYearFull.textContent = year;
+
+            const rating = details.vote_average ? details.vote_average.toFixed(1) : 'Н/Б';
+            modalRatingValue.textContent = rating;
+            modalRatingFull.textContent = `${rating}/10`;
+
+            modalSeasons.textContent = details.number_of_seasons || 'Белгісіз';
+            modalEpisodes.textContent = details.number_of_episodes || 'Белгісіз';
+            modalDescription.textContent = translateText(details.overview || 'Сипаттама жоқ');
+
+            // Жанрларды көрсету
+            modalGenres.innerHTML = '';
+            if (details.genres && details.genres.length > 0) {
+                details.genres.forEach(genre => {
+                    const span = document.createElement('span');
+                    span.className = 'genre-tag';
+                    span.textContent = translateGenre(genre.name);
+                    modalGenres.appendChild(span);
+                });
+            }
+
+            // Актерлерді көрсету
+            modalCharacters.innerHTML = '';
+            if (details.credits && details.credits.cast && details.credits.cast.length > 0) {
+                const topCast = details.credits.cast.slice(0, 6);
+                topCast.forEach(actor => {
+                    const actorDiv = document.createElement('div');
+                    actorDiv.className = 'character-item';
+
+                    const profilePath = actor.profile_path
+                        ? `${TMDB_IMAGE_BASE_URL}${actor.profile_path}`
+                        : 'https://via.placeholder.com/150x200?text=No+Photo';
+
+                    actorDiv.innerHTML = `
+                    <img src="${profilePath}" alt="${actor.name}" class="character-image"
+                         onerror="this.src='https://via.placeholder.com/150x200?text=No+Photo'">
+                    <p class="character-name">${translateText(actor.character || 'Рөлі белгісіз')}</p>
+                    <p class="character-actor">${actor.name}</p>
+                `;
+                    modalCharacters.appendChild(actorDiv);
+                });
+            } else {
+                modalCharacters.innerHTML = '<p style="color: #888;">Актерлер туралы ақпарат жоқ</p>';
+            }
+
+            // Трейлер батырмасын баптау
+            currentTrailerKey = null;
+            if (details.videos && details.videos.results && details.videos.results.length > 0) {
+                const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+                if (trailer) {
+                    currentTrailerKey = trailer.key;
+                    trailerBtn.disabled = false;
+                    trailerBtn.textContent = '🎥 Трейлерді көру';
+                } else {
+                    trailerBtn.disabled = true;
+                    trailerBtn.textContent = '🎥 Трейлер жоқ';
+                }
+            } else {
+                trailerBtn.disabled = true;
+                trailerBtn.textContent = '🎥 Трейлер жоқ';
+            }
+
+            dramaModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Трейлерді ашу
+        trailerBtn.addEventListener('click', () => {
+            if (currentTrailerKey) {
+                const youtubeUrl = `${YOUTUBE_BASE_URL}?v=${currentTrailerKey}`;
+                window.open(youtubeUrl, '_blank');
+            }
+        });
+
+        // Модальді терезені жабу
+        closeModal.addEventListener('click', () => {
+            dramaModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === dramaModal) {
+                dramaModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Статистиканы жаңарту
+        function updateStatistics(dramas) {
+            document.getElementById('totalDramas').textContent = dramas.length;
+            document.getElementById('koreanDramas').textContent = dramas.length;
+
+            const popularDramas = dramas.filter(d => d.popularity > 50).length;
+            document.getElementById('popularDramas').textContent = popularDramas;
+
+            if (dramas.length > 0) {
+                const avgRating = dramas.reduce((sum, d) => sum + (d.vote_average || 0), 0) / dramas.length;
+                document.getElementById('avgRating').textContent = avgRating.toFixed(1);
+            } else {
+                document.getElementById('avgRating').textContent = '0';
+            }
+        }
+
+        // Мәтінді аудару
+        function translateText(text) {
+            return text;
+        }
+
+        // Жанрды аудару
+        function translateGenre(genreName) {
+            return translations[genreName] || genreName;
+        }
+
+        // Жүктелуді көрсету
+        function showLoading() {
+            loadingSpinner.style.display = 'block';
+            loadMoreBtn.disabled = true;
+        }
+
+        // Жүктелуді жасыру
+        function hideLoading() {
+            loadingSpinner.style.display = 'none';
+            loadMoreBtn.disabled = false;
+        }
+
+        // Қатені көрсету
+        function showError(message) {
+            catalogContainer.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #e50914;">
+                <h3 style="margin-bottom: 10px;">❌ Қате</h3>
+                <p>${message}</p>
+            </div>
+        `;
+        }
+
+        // Фильтрлер мен іздеу
+        genreFilter.addEventListener('change', () => {
+            selectedGenre = genreFilter.value;
+            currentPage = 1;
+            fetchDramas(currentPage, selectedGenre, selectedCountry, searchQuery);
+        });
+
+        countryFilter.addEventListener('change', () => {
+            selectedCountry = countryFilter.value;
+            currentPage = 1;
+            fetchDramas(currentPage, selectedGenre, selectedCountry, searchQuery);
+        });
+
+        let searchTimeout;
+        searchBox.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchQuery = searchBox.value.trim();
+                currentPage = 1;
+                fetchDramas(currentPage, selectedGenre, selectedCountry, searchQuery);
+            }, 500);
+        });
+
+        // "Тағы жүктеу" батырмасы
+        loadMoreBtn.addEventListener('click', () => {
+            currentPage++;
+            fetchDramas(currentPage, selectedGenre, selectedCountry, searchQuery);
+        });
+
+        // Автоматический перевод на казахский
+        function triggerAutoTranslate() {
+            if (sessionStorage.getItem('translated') === 'true') {
+                return;
+            }
+
+            const checkTranslateReady = setInterval(function () {
+                const selectElement = document.querySelector('.goog-te-combo');
+
+                if (selectElement) {
+                    clearInterval(checkTranslateReady);
+                    selectElement.value = 'kk';
+                    selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+                    sessionStorage.setItem('translated', 'true');
+                }
+            }, 100);
+
+            setTimeout(function () {
+                clearInterval(checkTranslateReady);
+            }, 10000);
+        }
+
+        // Запуск после загрузки страницы
+        window.addEventListener('load', function () {
+            setTimeout(triggerAutoTranslate, 1000);
+            fetchDramas(currentPage, selectedGenre, selectedCountry, searchQuery);
+        });
+        
+    </script>
+</body>
+
+</html>
